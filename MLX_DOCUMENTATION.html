@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MinilibX (MLX) — Complete Python Developer Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg:        #0f1117;
+    --bg2:       #161b22;
+    --bg3:       #1c2128;
+    --border:    #30363d;
+    --accent:    #58a6ff;
+    --accent2:   #3fb950;
+    --accent3:   #d2a8ff;
+    --accent4:   #ffa657;
+    --text:      #e6edf3;
+    --text2:     #8b949e;
+    --red:       #ff7b72;
+    --yellow:    #e3b341;
+    --cyan:      #39c5cf;
+    --tag-bg:    #1f3a5f;
+    --tag-text:  #79c0ff;
+    --code-bg:   #161b22;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* ── Cover page ─────────────────────────────────── */
+  .cover {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 40%, #1c2432 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cover-badge {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #1f6feb;
+    margin-bottom: 32px;
+  }
+
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+
+  .cover h1 span {
+    color: var(--accent);
+  }
+
+  .cover .subtitle {
+    font-size: 18px;
+    color: var(--text2);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cover-meta-item {
+    text-align: center;
+  }
+
+  .cover-meta-item .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text2);
+    margin-bottom: 4px;
+  }
+
+  .cover-meta-item .value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 2px;
+    margin: 40px auto;
+  }
+
+  .cover-toc {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 40px;
+    text-align: left;
+    max-width: 560px;
+    width: 100%;
+  }
+
+  .cover-toc h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text2);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .cover-toc ol {
+    list-style: none;
+    columns: 2;
+    column-gap: 24px;
+  }
+
+  .cover-toc li {
+    font-size: 12px;
+    color: var(--text2);
+    padding: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .cover-toc li .num {
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 18px;
+  }
+
+  /* ── Page layout ─────────────────────────────────── */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* ── Section breaks ──────────────────────────────── */
+  .section {
+    margin-bottom: 60px;
+    page-break-inside: avoid;
+  }
+
+  /* ── Headings ────────────────────────────────────── */
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h2 .section-num {
+    background: var(--accent);
+    color: #0d1117;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    min-width: 28px;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent3);
+    margin: 28px 0 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h3.fn {
+    background: var(--bg2);
+    border-left: 3px solid var(--accent3);
+    padding: 8px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+  }
+
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent4);
+    margin: 20px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  p {
+    color: var(--text2);
+    margin-bottom: 12px;
+    line-height: 1.75;
+  }
+
+  p strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── Inline code ─────────────────────────────────── */
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12.5px;
+    background: var(--bg3);
+    color: var(--accent4);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* ── Code blocks ─────────────────────────────────── */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin: 14px 0 20px;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  pre code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text);
+    white-space: pre;
+  }
+
+  .lang-label {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Syntax highlighting */
+  .kw  { color: #ff7b72; }   /* keywords: def, return, if, for, import */
+  .fn  { color: #d2a8ff; }   /* function names */
+  .st  { color: #a5d6ff; }   /* strings */
+  .nm  { color: #79c0ff; }   /* names / identifiers */
+  .cm  { color: #8b949e; font-style: italic; } /* comments */
+  .nb  { color: #ffa657; }   /* numbers */
+  .op  { color: #e6edf3; }   /* operators */
+  .cls { color: #3fb950; }   /* class names */
+
+  /* ── Tables ──────────────────────────────────────── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  thead {
+    background: var(--bg3);
+  }
+
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+
+  tbody tr:nth-child(even) {
+    background: rgba(255,255,255,0.02);
+  }
+
+  td {
+    padding: 9px 14px;
+    color: var(--text2);
+    vertical-align: top;
+  }
+
+  td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--accent4);
+    white-space: nowrap;
+  }
+
+  /* ── Callout boxes ───────────────────────────────── */
+  .note, .warn, .tip, .important {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .note    { background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.25); }
+  .warn    { background: rgba(255,123,114,0.08); border: 1px solid rgba(255,123,114,0.25); }
+  .tip     { background: rgba(63,185,80,0.08);  border: 1px solid rgba(63,185,80,0.25); }
+  .important { background: rgba(210,168,255,0.08); border: 1px solid rgba(210,168,255,0.25); }
+
+  .note    .icon { color: var(--accent); }
+  .warn    .icon { color: var(--red); }
+  .tip     .icon { color: var(--accent2); }
+  .important .icon { color: var(--accent3); }
+
+  .note p, .warn p, .tip p, .important p { margin: 0; color: var(--text); }
+
+  /* ── Param list ──────────────────────────────────── */
+  .params {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+  }
+
+  .param-row {
+    display: flex;
+    gap: 12px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+    font-size: 12.5px;
+  }
+
+  .param-row:last-child { border-bottom: none; }
+
+  .param-name {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent4);
+    min-width: 130px;
+    font-size: 12px;
+  }
+
+  .param-desc {
+    color: var(--text2);
+    flex: 1;
+  }
+
+  /* ── Returns ─────────────────────────────────────── */
+  .returns {
+    background: rgba(63,185,80,0.06);
+    border-left: 3px solid var(--accent2);
+    padding: 8px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 12.5px;
+    margin: 10px 0;
+  }
+
+  .returns strong { color: var(--accent2); }
+  .returns p { margin: 0; color: var(--text2); }
+
+  /* ── Key code grid ───────────────────────────────── */
+  .key-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 14px 0;
+  }
+
+  .key-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 11.5px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .key-item .key-name {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .key-item .key-code {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  /* ── Quick ref card ──────────────────────────────── */
+  .qref {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    page-break-inside: avoid;
+  }
+
+  .qref-section {
+    margin-bottom: 20px;
+  }
+
+  .qref-section:last-child { margin-bottom: 0; }
+
+  .qref-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .qref pre {
+    margin: 0;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  /* ── Recipe cards ────────────────────────────────── */
+  .recipe {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    page-break-inside: avoid;
+  }
+
+  .recipe h3 {
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+
+  .recipe pre {
+    margin: 0;
+  }
+
+  /* ── Limitations grid ────────────────────────────── */
+  .limit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .limit-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .limit-item strong {
+    display: block;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  .limit-item span {
+    color: var(--text2);
+  }
+
+  /* ── Section page breaks ─────────────────────────── */
+  .page-break { page-break-before: always; }
+
+  /* ── Print / PDF ─────────────────────────────────── */
+  @media print {
+    body { background: #0f1117; }
+    pre, .recipe, .qref, .note, .warn, .tip, .important { page-break-inside: avoid; }
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm 10mm;
+  }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  li {
+    color: var(--text2);
+    padding: 2px 0;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="cover-badge">Open Developer Guide — mlx_CLXV v2.2</div>
+  <h1>Mini<span>LibX</span></h1>
+  <div class="subtitle">The Complete Python Guide for Building Graphical Applications</div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="label">Version</div>
+      <div class="value">2.2 (CLXV)</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Platform</div>
+      <div class="value">Linux / XCB / Vulkan</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Language</div>
+      <div class="value">Python 3 (ctypes)</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Written by</div>
+      <div class="value">Bruno Gomes</div>
+    </div>
+  </div>
+  <div class="cover-divider"></div>
+  <div class="cover-toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><span class="num">01</span>What is MLX?</li>
+      <li><span class="num">02</span>Architecture</li>
+      <li><span class="num">03</span>Getting Started</li>
+      <li><span class="num">04</span>Init &amp; Teardown</li>
+      <li><span class="num">05</span>Windows</li>
+      <li><span class="num">06</span>Drawing Directly</li>
+      <li><span class="num">07</span>Images</li>
+      <li><span class="num">08</span>Loading Files</li>
+      <li><span class="num">09</span>Event Loop</li>
+      <li><span class="num">10</span>Keyboard Hooks</li>
+      <li><span class="num">11</span>Mouse Hooks</li>
+      <li><span class="num">12</span>Expose Hook</li>
+      <li><span class="num">13</span>Loop Hook</li>
+      <li><span class="num">14</span>Generic Hook</li>
+      <li><span class="num">15</span>Mouse Utilities</li>
+      <li><span class="num">16</span>Keyboard Utilities</li>
+      <li><span class="num">17</span>Screen Info</li>
+      <li><span class="num">18</span>Sync &amp; Flush</li>
+      <li><span class="num">19</span>Color System</li>
+      <li><span class="num">20</span>Practical Recipes</li>
+      <li><span class="num">21</span>Limitations</li>
+      <li><span class="num">22</span>Quick Reference</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CONTENT -->
+<div class="content">
+
+<!-- ── 1 ── -->
+<div class="section">
+<h2><span class="section-num">01</span> What is MLX?</h2>
+<p><strong>MinilibX</strong> (MLX) is a minimal graphical library originally developed by Olivier Crouzet. Its purpose is simple: let you open a window, draw pixels in it, load images, and react to keyboard and mouse events — without needing to know Vulkan, X11, or any other low-level graphics system.</p>
+<p>It is intentionally kept small and low-level. There are no built-in widgets, no UI toolkit, no audio — just the raw building blocks. Everything beyond those basics is yours to design and build, which makes it a fantastic foundation for games, visualisations, simulations, tools, and any creative project that needs a graphical window.</p>
+<p>This guide documents every function, every event, and every technique available in the Python version of MLX (<code>mlx_CLXV v2.2</code>), written so that any developer — beginner or experienced — can pick it up and start building immediately.</p>
+
+<h4>What it provides</h4>
+<ul>
+  <li>Open one or more windows on screen at any size</li>
+  <li>Draw pixels directly or via fast image buffers</li>
+  <li>Render text anywhere with a built-in bitmap font</li>
+  <li>Load XPM and PNG image files as drawable sprites or backgrounds</li>
+  <li>React to keyboard presses and releases with full keycode access</li>
+  <li>React to mouse clicks, scroll wheel, and button press/release</li>
+  <li>Control the mouse cursor — hide it, move it, or track its position</li>
+  <li>Detect mouse enter/leave events on any window</li>
+  <li>Manage multiple independent windows simultaneously</li>
+  <li>Synchronise rendering to prevent tearing or race conditions</li>
+</ul>
+
+<h4>What you build on top of it</h4>
+<ul>
+  <li>2D games — platformers, puzzle games, maze games, shooters</li>
+  <li>Simulations — fractals, cellular automata, physics, pathfinding visualisers</li>
+  <li>Creative tools — pixel editors, drawing apps, generative art</li>
+  <li>UI — clickable menus, hover effects, animated transitions, HUDs</li>
+  <li>Data visualisation — real-time graphs, heatmaps, algorithm step-throughs</li>
+</ul>
+
+<h4>What it does NOT provide (you must build or source externally)</h4>
+<ul>
+  <li>Audio, networking, file I/O</li>
+  <li>UI widgets (buttons, sliders, checkboxes) — implement with images + hit-testing</li>
+  <li>Custom fonts or variable text sizes — only one fixed bitmap font is included</li>
+  <li>3D rendering, shaders, or direct GPU programming</li>
+</ul>
+</div>
+
+<!-- ── 2 ── -->
+<div class="section">
+<h2><span class="section-num">02</span> Architecture</h2>
+<pre><code><span class="cm">Your Python Code
+      │
+      ▼</span>
+  <span class="cls">Mlx</span> <span class="nm">class</span> <span class="cm">(mlx.py)        ← Python ctypes wrapper</span>
+      │
+      ▼
+  <span class="nm">libmlx.so</span>                 <span class="cm">← compiled C library</span>
+      │
+      ├── <span class="nm">XCB backend</span>       <span class="cm">← window management + events (keyboard, mouse)</span>
+      └── <span class="nm">Vulkan backend</span>    <span class="cm">← GPU drawing (pixels, images, text)</span></code></pre>
+
+<p>The <strong>main loop</strong> (<code>mlx_loop</code>) is an infinite event loop inside the C library. It waits for events, calls your registered Python callbacks when they occur, and calls your loop hook on every idle frame. Your program only runs through callbacks once the loop starts.</p>
+</div>
+
+<!-- ── 3 ── -->
+<div class="section">
+<h2><span class="section-num">03</span> Getting Started</h2>
+<p>Install the MLX Python package into your virtual environment:</p>
+<pre><code><span class="cm"># From the mlx_CLXV directory</span>
+pip install mlx-2.2-py3-none-any.whl</code></pre>
+<p>Minimum working program — a window that closes on ESC or the X button:</p>
+<pre><code><span class="kw">from</span> <span class="nm">mlx</span> <span class="kw">import</span> <span class="cls">Mlx</span>
+<span class="kw">import</span> <span class="nm">os</span>
+
+<span class="kw">def</span> <span class="fn">on_key</span>(<span class="nm">key</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">key</span> <span class="op">==</span> <span class="nb">65307</span>:  <span class="cm"># ESC</span>
+        <span class="nm">os</span>.<span class="fn">_exit</span>(<span class="nb">0</span>)
+
+<span class="nm">mlx</span> <span class="op">=</span> <span class="cls">Mlx</span>()
+<span class="nm">mlx_ptr</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_init</span>()
+<span class="nm">win_ptr</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_window</span>(<span class="nm">mlx_ptr</span>, <span class="nb">800</span>, <span class="nb">600</span>, <span class="st">"My Window"</span>)
+
+<span class="nm">mlx</span>.<span class="fn">mlx_key_hook</span>(<span class="nm">win_ptr</span>, <span class="nm">on_key</span>, <span class="kw">None</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">33</span>, <span class="nb">0</span>, <span class="kw">lambda</span> <span class="nm">p</span>: <span class="nm">os</span>.<span class="fn">_exit</span>(<span class="nb">0</span>), <span class="kw">None</span>)  <span class="cm"># close button</span>
+
+<span class="nm">mlx</span>.<span class="fn">mlx_loop</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+</div>
+
+<!-- ── 4 ── -->
+<div class="section page-break">
+<h2><span class="section-num">04</span> Initialization &amp; Teardown</h2>
+
+<h3 class="fn">mlx_init()</h3>
+<pre><code><span class="nm">mlx_ptr</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_init</span>()</code></pre>
+<p>Must be called <strong>first</strong>, before anything else. Creates the connection to the display system (XCB + Vulkan).</p>
+<div class="returns"><p><strong>Returns:</strong> connection identifier — pass this to most other functions. Returns <code>None</code> on failure.</p></div>
+
+<h3 class="fn">mlx_release(mlx_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_release</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+<p>Disconnects from the display and frees all internal resources. Call at the end of your program after the loop exits.</p>
+<div class="returns"><p><strong>Returns:</strong> <code>0</code> on success.</p></div>
+</div>
+
+<!-- ── 5 ── -->
+<div class="section">
+<h2><span class="section-num">05</span> Windows</h2>
+
+<h3 class="fn">mlx_new_window(mlx_ptr, width, height, title)</h3>
+<pre><code><span class="nm">win_ptr</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_window</span>(<span class="nm">mlx_ptr</span>, <span class="nb">1600</span>, <span class="nb">900</span>, <span class="st">"A-MAZE-ING"</span>)</code></pre>
+<p>Creates a new window on screen. MLX can manage <strong>multiple windows simultaneously</strong> — each call creates a separate one.</p>
+<div class="params">
+  <div class="param-row"><span class="param-name">width, height</span><span class="param-desc">Window size in pixels.</span></div>
+  <div class="param-row"><span class="param-name">title</span><span class="param-desc">Text shown in the window's title bar. Auto-encoded to UTF-8.</span></div>
+</div>
+<div class="returns"><p><strong>Returns:</strong> window identifier (pass to drawing and hook functions). <code>None</code> on failure.</p></div>
+<div class="note"><span class="icon">ℹ</span><p>Origin <code>(0, 0)</code> is the <strong>top-left corner</strong>. X increases right, Y increases downward.</p></div>
+
+<h3 class="fn">mlx_clear_window(mlx_ptr, win_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_clear_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>)</code></pre>
+<p>Fills the entire window with <strong>black</strong>. Use this to erase everything before drawing a new frame.</p>
+
+<h3 class="fn">mlx_destroy_window(mlx_ptr, win_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_destroy_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>)</code></pre>
+<p>Closes and destroys a window. Useful when managing multiple windows and closing just one. The pointer becomes invalid after this call.</p>
+</div>
+
+<!-- ── 6 ── -->
+<div class="section">
+<h2><span class="section-num">06</span> Drawing Directly</h2>
+
+<h3 class="fn">mlx_pixel_put(mlx_ptr, win_ptr, x, y, color)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_pixel_put</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nb">100</span>, <span class="nb">200</span>, <span class="nb">0xFFFFFFFF</span>)</code></pre>
+<p>Draws a <strong>single pixel</strong> at position <code>(x, y)</code> with the given color. Most basic drawing primitive.</p>
+<div class="warn"><span class="icon">⚠</span><p><code>mlx_pixel_put</code> is <strong>slow</strong> — each pixel is a separate GPU command. For bulk drawing use image buffers instead (see Section 07).</p></div>
+
+<h3 class="fn">mlx_string_put(mlx_ptr, win_ptr, x, y, color, string)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_string_put</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nb">100</span>, <span class="nb">50</span>, <span class="nb">0xFFFFFFFF</span>, <span class="st">"Hello World"</span>)</code></pre>
+<p>Renders a text string at <code>(x, y)</code> using MLX's built-in <strong>fixed bitmap font</strong>. Supports ASCII 32–127 only.</p>
+<div class="params">
+  <div class="param-row"><span class="param-name">x, y</span><span class="param-desc">Top-left corner of the first character.</span></div>
+  <div class="param-row"><span class="param-name">color</span><span class="param-desc">Text color. Alpha channel is forced to 255 (opaque) — semi-transparent text is not supported.</span></div>
+  <div class="param-row"><span class="param-name">string</span><span class="param-desc">Text to display. Auto-encoded to UTF-8.</span></div>
+</div>
+<div class="note"><span class="icon">ℹ</span><p>Character width ≈ 7–8 px. Character height ≈ 13 px. Font size and face cannot be changed.</p></div>
+</div>
+
+<!-- ── 7 ── -->
+<div class="section page-break">
+<h2><span class="section-num">07</span> Images</h2>
+<p>Images are the <strong>recommended way to draw</strong>. You build the image in memory, then send it to the GPU in one call — much faster than pixel-by-pixel.</p>
+
+<h3 class="fn">mlx_new_image(mlx_ptr, width, height)</h3>
+<pre><code><span class="nm">img_ptr</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_image</span>(<span class="nm">mlx_ptr</span>, <span class="nb">200</span>, <span class="nb">200</span>)</code></pre>
+<p>Creates a blank image in memory of the given size.</p>
+<div class="returns"><p><strong>Returns:</strong> image identifier, or <code>None</code> on failure.</p></div>
+
+<h3 class="fn">mlx_get_data_addr(img_ptr) → tuple</h3>
+<pre><code><span class="nm">data</span>, <span class="nm">bpp</span>, <span class="nm">size_line</span>, <span class="nm">fmt</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_get_data_addr</span>(<span class="nm">img_ptr</span>)</code></pre>
+<p>Returns a <strong>writable memoryview</strong> of the image's raw pixel buffer plus metadata. This is the key function for drawing into images.</p>
+<div class="params">
+  <div class="param-row"><span class="param-name">data</span><span class="param-desc">Writable <code>memoryview</code> (cast to <code>'B'</code>) — the raw pixel bytes.</span></div>
+  <div class="param-row"><span class="param-name">bpp</span><span class="param-desc">Bits per pixel — typically <code>32</code>.</span></div>
+  <div class="param-row"><span class="param-name">size_line</span><span class="param-desc">Bytes per row. Use this to move between rows: <code>offset = y * size_line + x * 4</code></span></div>
+  <div class="param-row"><span class="param-name">fmt</span><span class="param-desc"><code>0</code> = B8G8R8A8 byte order &nbsp;|&nbsp; <code>1</code> = A8R8G8B8 byte order</span></div>
+</div>
+
+<p><strong>Writing pixels:</strong></p>
+<pre><code><span class="cm"># Put a white pixel at (10, 20)</span>
+<span class="nm">offset</span> <span class="op">=</span> <span class="nb">20</span> <span class="op">*</span> <span class="nm">size_line</span> <span class="op">+</span> <span class="nb">10</span> <span class="op">*</span> <span class="nb">4</span>
+<span class="nm">data</span>[<span class="nm">offset</span>:<span class="nm">offset</span> <span class="op">+</span> <span class="nb">4</span>] <span class="op">=</span> <span class="nb">bytes</span>([<span class="nb">0xFF</span>, <span class="nb">0xFF</span>, <span class="nb">0xFF</span>, <span class="nb">0xFF</span>])
+
+<span class="cm"># Fill entire image red</span>
+<span class="kw">for</span> <span class="nm">offset</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nb">0</span>, <span class="nm">size_line</span> <span class="op">*</span> <span class="nm">height</span>, <span class="nb">4</span>):
+    <span class="nm">data</span>[<span class="nm">offset</span>:<span class="nm">offset</span> <span class="op">+</span> <span class="nb">4</span>] <span class="op">=</span> <span class="nb">bytes</span>([<span class="nb">0x00</span>, <span class="nb">0x00</span>, <span class="nb">0xFF</span>, <span class="nb">0xFF</span>])  <span class="cm"># BGRA red</span></code></pre>
+
+<h3 class="fn">mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, x, y)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_put_image_to_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nm">img_ptr</span>, <span class="nb">0</span>, <span class="nb">0</span>)</code></pre>
+<p>Renders an image onto the window at <code>(x, y)</code>. Images drawn later appear on top. <code>x, y</code> can be negative for partially off-screen images.</p>
+
+<h3 class="fn">mlx_destroy_image(mlx_ptr, img_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_destroy_image</span>(<span class="nm">mlx_ptr</span>, <span class="nm">img_ptr</span>)</code></pre>
+<p>Frees image memory. Always destroy images you no longer need to avoid memory leaks.</p>
+</div>
+
+<!-- ── 8 ── -->
+<div class="section">
+<h2><span class="section-num">08</span> Loading Image Files</h2>
+
+<h3 class="fn">mlx_xpm_file_to_image(mlx_ptr, filename) → tuple</h3>
+<pre><code><span class="nm">img_ptr</span>, <span class="nm">width</span>, <span class="nm">height</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_xpm_file_to_image</span>(<span class="nm">mlx_ptr</span>, <span class="st">"assets/wall.xpm"</span>)</code></pre>
+<p>Loads an <strong>XPM file</strong> into an image. <strong>XPM is the recommended format</strong> for this MLX version — most reliable loader. Supports transparency.</p>
+<div class="tip"><span class="icon">✓</span><p>Convert any PNG/JPEG to XPM with ImageMagick: &nbsp;<code>magick input.png output.xpm</code></p></div>
+
+<h3 class="fn">mlx_png_file_to_image(mlx_ptr, filename) → tuple</h3>
+<pre><code><span class="nm">img_ptr</span>, <span class="nm">width</span>, <span class="nm">height</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_png_file_to_image</span>(<span class="nm">mlx_ptr</span>, <span class="st">"assets/wall.png"</span>)</code></pre>
+<p>Loads a <strong>PNG file</strong> into an image.</p>
+<div class="warn"><span class="icon">⚠</span><p>The PNG loader is incomplete and unreliable on some systems. For production code, pre-convert PNGs to XPM using ImageMagick.</p></div>
+</div>
+
+<!-- ── 9 ── -->
+<div class="section page-break">
+<h2><span class="section-num">09</span> The Event Loop</h2>
+
+<h3 class="fn">mlx_loop(mlx_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_loop</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># program runs here until exit</span></code></pre>
+<p>Starts the <strong>infinite event loop</strong>. This call <strong>never returns</strong> under normal operation. All logic now runs through callbacks. Must be called after all hooks are registered.</p>
+<div class="warn"><span class="icon">⚠</span><p>You cannot catch <code>Ctrl+C</code> inside <code>mlx_loop</code>. Use <code>Ctrl+\</code> to force-kill, or call <code>os._exit(0)</code> from a key hook.</p></div>
+
+<h3 class="fn">mlx_loop_exit(mlx_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_loop_exit</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+<p>Signals the loop to stop cleanly. <code>mlx_loop</code> will return, allowing code after it (cleanup) to run. Prefer this over <code>os._exit(0)</code> when you want to free resources properly.</p>
+</div>
+
+<!-- ── 10 ── -->
+<div class="section">
+<h2><span class="section-num">10</span> Keyboard Hooks</h2>
+
+<h3 class="fn">mlx_key_hook(win_ptr, callback, param)</h3>
+<pre><code><span class="kw">def</span> <span class="fn">on_key</span>(<span class="nm">keycode</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">keycode</span> <span class="op">==</span> <span class="nb">65307</span>:  <span class="cm"># ESC</span>
+        <span class="nm">os</span>.<span class="fn">_exit</span>(<span class="nb">0</span>)
+
+<span class="nm">mlx</span>.<span class="fn">mlx_key_hook</span>(<span class="nm">win_ptr</span>, <span class="nm">on_key</span>, <span class="kw">None</span>)</code></pre>
+
+<p>Registers a function called when a <strong>key is released</strong> (KeyRelease). Each window can have its own key hook.</p>
+<div class="params">
+  <div class="param-row"><span class="param-name">callback</span><span class="param-desc">Function with signature <code>(keycode: int, param: any) → None</code></span></div>
+  <div class="param-row"><span class="param-name">param</span><span class="param-desc">Any Python object, passed back to the callback unchanged. Use to share state.</span></div>
+</div>
+<p>To <strong>disable</strong> the hook: <code>mlx.mlx_key_hook(win_ptr, None, None)</code></p>
+
+<h4>Common Key Codes (Linux/XCB)</h4>
+<div class="key-grid">
+  <div class="key-item"><span class="key-name">ESC</span><span class="key-code">65307</span></div>
+  <div class="key-item"><span class="key-name">Enter</span><span class="key-code">65293</span></div>
+  <div class="key-item"><span class="key-name">Space</span><span class="key-code">32</span></div>
+  <div class="key-item"><span class="key-name">Backspace</span><span class="key-code">65288</span></div>
+  <div class="key-item"><span class="key-name">Up ↑</span><span class="key-code">65362</span></div>
+  <div class="key-item"><span class="key-name">Down ↓</span><span class="key-code">65364</span></div>
+  <div class="key-item"><span class="key-name">Left ←</span><span class="key-code">65361</span></div>
+  <div class="key-item"><span class="key-name">Right →</span><span class="key-code">65363</span></div>
+  <div class="key-item"><span class="key-name">'a'</span><span class="key-code">97</span></div>
+  <div class="key-item"><span class="key-name">'z'</span><span class="key-code">122</span></div>
+  <div class="key-item"><span class="key-name">'1'</span><span class="key-code">49</span></div>
+  <div class="key-item"><span class="key-name">'2'</span><span class="key-code">50</span></div>
+  <div class="key-item"><span class="key-name">Delete</span><span class="key-code">65535</span></div>
+  <div class="key-item"><span class="key-name">Tab</span><span class="key-code">65289</span></div>
+  <div class="key-item"><span class="key-name">Shift L</span><span class="key-code">65505</span></div>
+  <div class="key-item"><span class="key-name">Ctrl L</span><span class="key-code">65507</span></div>
+</div>
+<div class="tip"><span class="icon">✓</span><p>Find any key code by printing it: <code>def on_key(key, p): print(key)</code></p></div>
+</div>
+
+<!-- ── 11 ── -->
+<div class="section">
+<h2><span class="section-num">11</span> Mouse Hooks</h2>
+
+<h3 class="fn">mlx_mouse_hook(win_ptr, callback, param)</h3>
+<pre><code><span class="kw">def</span> <span class="fn">on_mouse</span>(<span class="nm">button</span>, <span class="nm">x</span>, <span class="nm">y</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">button</span> <span class="op">==</span> <span class="nb">1</span>:  <span class="cm"># left click</span>
+        <span class="fn">print</span>(<span class="st">f"Left click at ({x}, {y})"</span>)
+
+<span class="nm">mlx</span>.<span class="fn">mlx_mouse_hook</span>(<span class="nm">win_ptr</span>, <span class="nm">on_mouse</span>, <span class="kw">None</span>)</code></pre>
+
+<p>Called when a <strong>mouse button is pressed</strong>. Provides the button code and the exact click coordinates within the window.</p>
+<div class="params">
+  <div class="param-row"><span class="param-name">button</span><span class="param-desc">Which button: 1=Left, 2=Middle, 3=Right, 4=Scroll Up, 5=Scroll Down</span></div>
+  <div class="param-row"><span class="param-name">x, y</span><span class="param-desc">Click position inside the window (top-left origin)</span></div>
+</div>
+
+<p><strong>Clickable area hit-test:</strong></p>
+<pre><code><span class="nm">BTN_X</span>, <span class="nm">BTN_Y</span>, <span class="nm">BTN_W</span>, <span class="nm">BTN_H</span> <span class="op">=</span> <span class="nb">100</span>, <span class="nb">200</span>, <span class="nb">240</span>, <span class="nb">55</span>
+
+<span class="kw">def</span> <span class="fn">on_mouse</span>(<span class="nm">button</span>, <span class="nm">x</span>, <span class="nm">y</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">button</span> <span class="op">==</span> <span class="nb">1</span>:
+        <span class="kw">if</span> <span class="nm">BTN_X</span> <span class="op">&lt;=</span> <span class="nm">x</span> <span class="op">&lt;=</span> <span class="nm">BTN_X</span> <span class="op">+</span> <span class="nm">BTN_W</span> <span class="kw">and</span> <span class="nm">BTN_Y</span> <span class="op">&lt;=</span> <span class="nm">y</span> <span class="op">&lt;=</span> <span class="nm">BTN_Y</span> <span class="op">+</span> <span class="nm">BTN_H</span>:
+            <span class="fn">do_action</span>()</code></pre>
+</div>
+
+<!-- ── 12 ── -->
+<div class="section">
+<h2><span class="section-num">12</span> Expose Hook</h2>
+
+<h3 class="fn">mlx_expose_hook(win_ptr, callback, param)</h3>
+<pre><code><span class="kw">def</span> <span class="fn">on_expose</span>(<span class="nm">param</span>):
+    <span class="nm">state</span>.<span class="nm">needs_redraw</span> <span class="op">=</span> <span class="kw">True</span>
+
+<span class="nm">mlx</span>.<span class="fn">mlx_expose_hook</span>(<span class="nm">win_ptr</span>, <span class="nm">on_expose</span>, <span class="kw">None</span>)</code></pre>
+
+<p>Called when the window needs to be redrawn — e.g., after being uncovered or restored from alt-tab.</p>
+<div class="warn"><span class="icon">⚠</span><p>On modern composited desktops this event may fire only once at launch, or never. Don't rely on it alone. Use a <code>needs_redraw</code> dirty flag in your <strong>loop hook</strong> as your primary redraw mechanism.</p></div>
+</div>
+
+<!-- ── 13 ── -->
+<div class="section">
+<h2><span class="section-num">13</span> Loop Hook</h2>
+
+<h3 class="fn">mlx_loop_hook(mlx_ptr, callback, param)</h3>
+<pre><code><span class="kw">def</span> <span class="fn">on_loop</span>(<span class="nm">param</span>):
+    <span class="kw">if not</span> <span class="nm">state</span>.<span class="nm">needs_redraw</span>:
+        <span class="kw">return</span>                          <span class="cm"># skip frame — nothing changed</span>
+    <span class="nm">mlx</span>.<span class="fn">mlx_clear_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>)
+    <span class="fn">draw_everything</span>()
+    <span class="nm">state</span>.<span class="nm">needs_redraw</span> <span class="op">=</span> <span class="kw">False</span>
+
+<span class="nm">mlx</span>.<span class="fn">mlx_loop_hook</span>(<span class="nm">mlx_ptr</span>, <span class="nm">on_loop</span>, <span class="kw">None</span>)</code></pre>
+
+<p>Called on every loop iteration when no other event is pending. This is the <strong>primary place for rendering logic</strong>. Bound to the <code>mlx_ptr</code> connection (not a specific window).</p>
+<div class="important"><span class="icon">★</span><p>Use the <strong>dirty flag pattern</strong>: set <code>needs_redraw = True</code> only when state changes. Skip the redraw when nothing changed to avoid burning CPU on 60+ identical frames.</p></div>
+</div>
+
+<!-- ── 14 ── -->
+<div class="section page-break">
+<h2><span class="section-num">14</span> Generic Hook — mlx_hook</h2>
+
+<h3 class="fn">mlx_hook(win_ptr, x_event, x_mask, callback, param)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">33</span>, <span class="nb">0</span>, <span class="nm">on_close</span>, <span class="kw">None</span>)  <span class="cm"># window close button</span></code></pre>
+
+<p>The most powerful hook. Listens to <strong>any X11 event</strong>, beyond the three covered by convenience hooks.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>x_event</th><th>Name</th><th>When it fires</th><th>Callback signature</th></tr></thead>
+  <tbody>
+    <tr><td>2</td><td>KeyPress</td><td>Key held down (fires repeatedly if auto-repeat on)</td><td>(keycode, param)</td></tr>
+    <tr><td>3</td><td>KeyRelease</td><td>Key released (same as key_hook)</td><td>(keycode, param)</td></tr>
+    <tr><td>4</td><td>ButtonPress</td><td>Mouse button pressed</td><td>(button, x, y, param)</td></tr>
+    <tr><td>5</td><td>ButtonRelease</td><td>Mouse button released</td><td>(button, x, y, param)</td></tr>
+    <tr><td>6</td><td>MotionNotify</td><td>Mouse moved while a button is held</td><td>(x, y, param)</td></tr>
+    <tr><td>7</td><td>EnterNotify</td><td>Cursor enters the window</td><td>(param)</td></tr>
+    <tr><td>8</td><td>LeaveNotify</td><td>Cursor leaves the window</td><td>(param)</td></tr>
+    <tr><td>12</td><td>Expose</td><td>Window needs redraw</td><td>(param)</td></tr>
+    <tr><td>33</td><td>ClientMessage</td><td>Window close (X) button clicked</td><td>(param)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>KeyPress (held down) vs KeyRelease:</strong></p>
+<pre><code><span class="cm"># Fires immediately and repeatedly while key is held</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">2</span>, <span class="nb">1</span>, <span class="nm">on_keypress</span>, <span class="kw">None</span>)
+
+<span class="cm"># Fires once when key is released (standard mlx_key_hook behaviour)</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">3</span>, <span class="nb">1</span>, <span class="nm">on_keyrelease</span>, <span class="kw">None</span>)</code></pre>
+
+<p><strong>Mouse enter / leave window:</strong></p>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">7</span>, <span class="nb">0</span>, <span class="kw">lambda</span> <span class="nm">p</span>: <span class="fn">setattr</span>(<span class="nm">state</span>, <span class="st">'mouse_in_win'</span>, <span class="kw">True</span>), <span class="kw">None</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">8</span>, <span class="nb">0</span>, <span class="kw">lambda</span> <span class="nm">p</span>: <span class="fn">setattr</span>(<span class="nm">state</span>, <span class="st">'mouse_in_win'</span>, <span class="kw">False</span>), <span class="kw">None</span>)</code></pre>
+
+<div class="note"><span class="icon">ℹ</span><p><strong>MotionNotify (event 6)</strong> only fires while a mouse button is held. For hover detection without clicking, poll <code>mlx_mouse_get_pos</code> in your loop hook instead.</p></div>
+</div>
+
+<!-- ── 15 ── -->
+<div class="section">
+<h2><span class="section-num">15</span> Mouse Utilities</h2>
+
+<h3 class="fn">mlx_mouse_hide(mlx_ptr) / mlx_mouse_show(mlx_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_mouse_hide</span>(<span class="nm">mlx_ptr</span>)   <span class="cm"># cursor invisible</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_mouse_show</span>(<span class="nm">mlx_ptr</span>)   <span class="cm"># cursor visible again</span></code></pre>
+<p>Hides or shows the system mouse cursor. Use <code>mlx_mouse_hide</code> when drawing your own custom cursor image at the mouse position.</p>
+
+<h3 class="fn">mlx_mouse_move(mlx_ptr, x, y)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_mouse_move</span>(<span class="nm">mlx_ptr</span>, <span class="nb">400</span>, <span class="nb">300</span>)</code></pre>
+<p>Moves the cursor programmatically to <code>(x, y)</code> inside the window.</p>
+
+<h3 class="fn">mlx_mouse_get_pos(mlx_ptr) → tuple</h3>
+<pre><code><span class="nm">ret</span>, <span class="nm">x</span>, <span class="nm">y</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_mouse_get_pos</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+<p>Returns the <strong>current cursor position</strong> without waiting for a click. Poll this in your loop hook for hover effects.</p>
+</div>
+
+<!-- ── 16 ── -->
+<div class="section">
+<h2><span class="section-num">16</span> Keyboard Utilities</h2>
+
+<h3 class="fn">mlx_do_key_autorepeatoff(mlx_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_do_key_autorepeatoff</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># one event per keypress</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_do_key_autorepeaton</span>(<span class="nm">mlx_ptr</span>)   <span class="cm"># back to default (rapid-fire while held)</span></code></pre>
+<p>By default, holding a key generates repeated events every second. <code>autorepeatoff</code> makes each physical press fire exactly once, useful when you want to detect a single press without handling duplicates.</p>
+</div>
+
+<!-- ── 17 ── -->
+<div class="section">
+<h2><span class="section-num">17</span> Screen Info</h2>
+
+<h3 class="fn">mlx_get_screen_size(mlx_ptr) → tuple</h3>
+<pre><code><span class="nm">ret</span>, <span class="nm">screen_w</span>, <span class="nm">screen_h</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_get_screen_size</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+<p>Returns the physical monitor resolution. Can be called before creating any window. Useful to decide window size, tile size, or to detect screen boundaries.</p>
+</div>
+
+<!-- ── 18 ── -->
+<div class="section">
+<h2><span class="section-num">18</span> Sync &amp; Flush</h2>
+<p>Controls when drawing commands are sent to the screen. Normally handled automatically by <code>mlx_loop</code> — you only need these for advanced frame control.</p>
+
+<h3 class="fn">mlx_do_sync(mlx_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_do_sync</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># flush all pending commands</span></code></pre>
+
+<h3 class="fn">mlx_sync(mlx_ptr, cmd, img_or_win_ptr)</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_sync</span>(<span class="nm">mlx_ptr</span>, <span class="cls">Mlx</span>.<span class="nm">SYNC_IMAGE_WRITABLE</span>, <span class="nm">img_ptr</span>)  <span class="cm"># wait before writing image</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_sync</span>(<span class="nm">mlx_ptr</span>, <span class="cls">Mlx</span>.<span class="nm">SYNC_WIN_FLUSH</span>, <span class="nm">win_ptr</span>)      <span class="cm"># force frame to appear</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_sync</span>(<span class="nm">mlx_ptr</span>, <span class="cls">Mlx</span>.<span class="nm">SYNC_WIN_COMPLETED</span>, <span class="nm">win_ptr</span>)   <span class="cm"># flush + wait for GPU done</span></code></pre>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Constant</th><th>Value</th><th>What it does</th></tr></thead>
+  <tbody>
+    <tr><td>SYNC_IMAGE_WRITABLE</td><td>1</td><td>Wait until the image buffer is safe to write again (GPU finished reading it)</td></tr>
+    <tr><td>SYNC_WIN_FLUSH</td><td>2</td><td>Send all pending draw commands for this window to the server</td></tr>
+    <tr><td>SYNC_WIN_COMPLETED</td><td>3</td><td>Flush AND wait for the server to confirm the frame is displayed</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<!-- ── 19 ── -->
+<div class="section page-break">
+<h2><span class="section-num">19</span> Color System</h2>
+
+<p>Colors are <code>unsigned int</code> values. The standard notation for <code>mlx_pixel_put</code> and <code>mlx_string_put</code> is <code>0xAARRGGBB</code>:</p>
+
+<pre><code><span class="nb">0xFF FF FF FF</span>
+  <span class="cm">↑  ↑  ↑  ↑</span>
+  <span class="st">A  R  G  B</span>
+
+<span class="cm">Alpha:  0x00 = transparent,  0xFF = fully opaque</span>
+<span class="cm">Note:   mlx_string_put forces alpha to 0xFF regardless</span></code></pre>
+
+<h4>Common Colors</h4>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Color</th><th>Value</th><th>Color</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>White</td><td>0xFFFFFFFF</td><td>Black</td><td>0xFF000000</td></tr>
+    <tr><td>Red</td><td>0xFFFF0000</td><td>Green</td><td>0xFF00FF00</td></tr>
+    <tr><td>Blue</td><td>0xFF0000FF</td><td>Yellow</td><td>0xFFFFFF00</td></tr>
+    <tr><td>Cyan</td><td>0xFF00FFFF</td><td>Magenta</td><td>0xFFFF00FF</td></tr>
+    <tr><td>Grey</td><td>0xFF888888</td><td>Orange</td><td>0xFFFF8000</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>Build a Color from RGB Components</h4>
+<pre><code><span class="kw">def</span> <span class="fn">rgb</span>(<span class="nm">r</span>, <span class="nm">g</span>, <span class="nm">b</span>, <span class="nm">a</span><span class="op">=</span><span class="nb">255</span>):
+    <span class="kw">return</span> (<span class="nm">a</span> <span class="op">&lt;&lt;</span> <span class="nb">24</span>) <span class="op">|</span> (<span class="nm">r</span> <span class="op">&lt;&lt;</span> <span class="nb">16</span>) <span class="op">|</span> (<span class="nm">g</span> <span class="op">&lt;&lt;</span> <span class="nb">8</span>) <span class="op">|</span> <span class="nm">b</span>
+
+<span class="nm">gold</span>   <span class="op">=</span> <span class="fn">rgb</span>(<span class="nb">180</span>, <span class="nb">140</span>, <span class="nb">60</span>)
+<span class="nm">purple</span> <span class="op">=</span> <span class="fn">rgb</span>(<span class="nb">60</span>, <span class="nb">30</span>, <span class="nb">90</span>)</code></pre>
+
+<p>For raw image buffer writes, byte order depends on the format returned by <code>mlx_get_data_addr</code>. On format 0 (B G R A): write bytes as <code>[blue, green, red, alpha]</code>.</p>
+</div>
+
+<!-- ── 20 ── -->
+<div class="section">
+<h2><span class="section-num">20</span> Practical Recipes</h2>
+
+<div class="recipe">
+<h3>A — Hover Effect (no click required)</h3>
+<pre><code><span class="kw">def</span> <span class="fn">on_loop</span>(<span class="nm">param</span>):
+    <span class="nm">_</span>, <span class="nm">mx</span>, <span class="nm">my</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_mouse_get_pos</span>(<span class="nm">mlx_ptr</span>)
+    <span class="nm">hovering</span> <span class="op">=</span> (<span class="nm">BTN_X</span> <span class="op">&lt;=</span> <span class="nm">mx</span> <span class="op">&lt;=</span> <span class="nm">BTN_X</span> <span class="op">+</span> <span class="nm">BTN_W</span> <span class="kw">and</span>
+                <span class="nm">BTN_Y</span> <span class="op">&lt;=</span> <span class="nm">my</span> <span class="op">&lt;=</span> <span class="nm">BTN_Y</span> <span class="op">+</span> <span class="nm">BTN_H</span>)
+    <span class="nm">img</span> <span class="op">=</span> <span class="nm">img_hover</span> <span class="kw">if</span> <span class="nm">hovering</span> <span class="kw">else</span> <span class="nm">img_normal</span>
+    <span class="nm">mlx</span>.<span class="fn">mlx_put_image_to_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nm">img_bg</span>, <span class="nb">0</span>, <span class="nb">0</span>)
+    <span class="nm">mlx</span>.<span class="fn">mlx_put_image_to_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nm">img</span>, <span class="nm">BTN_X</span>, <span class="nm">BTN_Y</span>)</code></pre>
+</div>
+
+<div class="recipe">
+<h3>B — Custom Mouse Cursor</h3>
+<pre><code><span class="nm">mlx</span>.<span class="fn">mlx_mouse_hide</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># hide system cursor</span>
+
+<span class="kw">def</span> <span class="fn">on_loop</span>(<span class="nm">param</span>):
+    <span class="nm">_</span>, <span class="nm">mx</span>, <span class="nm">my</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_mouse_get_pos</span>(<span class="nm">mlx_ptr</span>)
+    <span class="nm">mlx</span>.<span class="fn">mlx_clear_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>)
+    <span class="nm">mlx</span>.<span class="fn">mlx_put_image_to_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nm">img_bg</span>, <span class="nb">0</span>, <span class="nb">0</span>)
+    <span class="nm">mlx</span>.<span class="fn">mlx_put_image_to_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>, <span class="nm">img_cursor</span>, <span class="nm">mx</span> <span class="op">-</span> <span class="nb">8</span>, <span class="nm">my</span> <span class="op">-</span> <span class="nb">8</span>)</code></pre>
+</div>
+
+<div class="recipe">
+<h3>C — Scene / State Machine (single window)</h3>
+<pre><code><span class="nm">state</span>.<span class="nm">scene</span> <span class="op">=</span> <span class="st">"menu"</span>
+
+<span class="kw">def</span> <span class="fn">on_loop</span>(<span class="nm">param</span>):
+    <span class="kw">if not</span> <span class="nm">state</span>.<span class="nm">needs_redraw</span>: <span class="kw">return</span>
+    <span class="nm">mlx</span>.<span class="fn">mlx_clear_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>)
+    <span class="kw">if</span> <span class="nm">state</span>.<span class="nm">scene</span> <span class="op">==</span> <span class="st">"menu"</span>: <span class="fn">draw_menu</span>()
+    <span class="kw">elif</span> <span class="nm">state</span>.<span class="nm">scene</span> <span class="op">==</span> <span class="st">"game"</span>: <span class="fn">draw_game</span>()
+    <span class="nm">state</span>.<span class="nm">needs_redraw</span> <span class="op">=</span> <span class="kw">False</span>
+
+<span class="kw">def</span> <span class="fn">on_key</span>(<span class="nm">key</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">state</span>.<span class="nm">scene</span> <span class="op">==</span> <span class="st">"menu"</span> <span class="kw">and</span> <span class="nm">key</span> <span class="op">==</span> <span class="nb">49</span>:  <span class="cm"># '1'</span>
+        <span class="nm">state</span>.<span class="nm">scene</span> <span class="op">=</span> <span class="st">"game"</span>
+        <span class="nm">state</span>.<span class="nm">needs_redraw</span> <span class="op">=</span> <span class="kw">True</span></code></pre>
+</div>
+
+<div class="recipe">
+<h3>D — Key Held Down Detection</h3>
+<pre><code><span class="cm"># event 2 = KeyPress: fires repeatedly while held</span>
+<span class="kw">def</span> <span class="fn">on_keypress</span>(<span class="nm">key</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">key</span> <span class="op">==</span> <span class="nb">65361</span>:   <span class="cm"># left arrow</span>
+        <span class="nm">state</span>.<span class="nm">player_x</span> <span class="op">-=</span> <span class="nb">5</span>
+        <span class="nm">state</span>.<span class="nm">needs_redraw</span> <span class="op">=</span> <span class="kw">True</span>
+
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win_ptr</span>, <span class="nb">2</span>, <span class="nb">1</span>, <span class="nm">on_keypress</span>, <span class="kw">None</span>)</code></pre>
+</div>
+
+<div class="recipe">
+<h3>E — Multiple Windows</h3>
+<pre><code><span class="nm">win1</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_window</span>(<span class="nm">mlx_ptr</span>, <span class="nb">800</span>, <span class="nb">600</span>, <span class="st">"Main"</span>)
+<span class="nm">win2</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_window</span>(<span class="nm">mlx_ptr</span>, <span class="nb">400</span>, <span class="nb">300</span>, <span class="st">"Secondary"</span>)
+
+<span class="nm">mlx</span>.<span class="fn">mlx_mouse_hook</span>(<span class="nm">win1</span>, <span class="nm">on_mouse_win1</span>, <span class="kw">None</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_mouse_hook</span>(<span class="nm">win2</span>, <span class="nm">on_mouse_win2</span>, <span class="kw">None</span>)
+
+<span class="cm"># Close only win2 without ending the program</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win2</span>, <span class="nb">33</span>, <span class="nb">0</span>, <span class="kw">lambda</span> <span class="nm">p</span>: <span class="nm">mlx</span>.<span class="fn">mlx_destroy_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win2</span>), <span class="kw">None</span>)</code></pre>
+</div>
+
+<div class="recipe">
+<h3>F — Clean Shutdown</h3>
+<pre><code><span class="kw">def</span> <span class="fn">on_key</span>(<span class="nm">key</span>, <span class="nm">param</span>):
+    <span class="kw">if</span> <span class="nm">key</span> <span class="op">==</span> <span class="nb">65307</span>:  <span class="cm"># ESC</span>
+        <span class="nm">mlx</span>.<span class="fn">mlx_loop_exit</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># loop returns cleanly</span>
+
+<span class="nm">mlx</span>.<span class="fn">mlx_loop</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># returns after mlx_loop_exit</span>
+
+<span class="cm"># Cleanup runs here</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_destroy_image</span>(<span class="nm">mlx_ptr</span>, <span class="nm">img_ptr</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_destroy_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win_ptr</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_release</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+</div>
+</div>
+
+<!-- ── 21 ── -->
+<div class="section page-break">
+<h2><span class="section-num">21</span> Limitations &amp; Known Issues</h2>
+
+<div class="limit-grid">
+  <div class="limit-item"><strong>No window positioning</strong><span>Cannot set where on screen the window appears — the OS decides.</span></div>
+  <div class="limit-item"><strong>Font is fixed</strong><span><code>mlx_string_put</code> uses one built-in bitmap font. Size and face cannot be changed.</span></div>
+  <div class="limit-item"><strong>PNG loader unreliable</strong><span>Some PNG types fail silently. Always convert PNGs to XPM with ImageMagick for production.</span></div>
+  <div class="limit-item"><strong>No Ctrl+C in loop</strong><span>Python cannot catch SIGINT inside <code>mlx_loop</code>. Use <code>Ctrl+\</code> or <code>os._exit(0)</code> from a hook.</span></div>
+  <div class="limit-item"><strong>Expose event unreliable</strong><span>May fire only once at launch on composited desktops. Use loop hook + dirty flag instead.</span></div>
+  <div class="limit-item"><strong>MotionNotify needs button</strong><span>Event 6 only fires during click-drag. For hover without clicking, poll <code>mlx_mouse_get_pos</code>.</span></div>
+  <div class="limit-item"><strong>Text alpha forced to opaque</strong><span><code>mlx_string_put</code> always forces alpha to 255 — no semi-transparent text.</span></div>
+  <div class="limit-item"><strong>pixel_put is slow</strong><span>Each call is a separate GPU command. Use image buffers for bulk pixel drawing.</span></div>
+  <div class="limit-item"><strong>No text input widget</strong><span>No text field exists. Build your own using key hooks if needed.</span></div>
+  <div class="limit-item"><strong>Image format varies</strong><span><code>mlx_get_data_addr</code> returns format 0 or 1. Always check before writing raw pixel bytes.</span></div>
+</div>
+</div>
+
+<!-- ── 22 ── -->
+<div class="section">
+<h2><span class="section-num">22</span> Quick Reference Card</h2>
+
+<div class="qref">
+  <div class="qref-section">
+    <div class="qref-title">Init</div>
+    <pre><code><span class="nm">mlx_ptr</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_init</span>()
+<span class="nm">mlx</span>.<span class="fn">mlx_release</span>(<span class="nm">mlx_ptr</span>)</code></pre>
+  </div>
+  <div class="qref-section">
+    <div class="qref-title">Windows</div>
+    <pre><code><span class="nm">win</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">w</span>, <span class="nm">h</span>, <span class="st">"title"</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_clear_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_destroy_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win</span>)</code></pre>
+  </div>
+  <div class="qref-section">
+    <div class="qref-title">Draw Direct (slow)</div>
+    <pre><code><span class="nm">mlx</span>.<span class="fn">mlx_pixel_put</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win</span>, <span class="nm">x</span>, <span class="nm">y</span>, <span class="nm">color</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_string_put</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win</span>, <span class="nm">x</span>, <span class="nm">y</span>, <span class="nm">color</span>, <span class="st">"text"</span>)</code></pre>
+  </div>
+  <div class="qref-section">
+    <div class="qref-title">Images (fast)</div>
+    <pre><code><span class="nm">img</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_new_image</span>(<span class="nm">mlx_ptr</span>, <span class="nm">w</span>, <span class="nm">h</span>)
+<span class="nm">data</span>, <span class="nm">bpp</span>, <span class="nm">sl</span>, <span class="nm">fmt</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_get_data_addr</span>(<span class="nm">img</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_put_image_to_window</span>(<span class="nm">mlx_ptr</span>, <span class="nm">win</span>, <span class="nm">img</span>, <span class="nm">x</span>, <span class="nm">y</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_destroy_image</span>(<span class="nm">mlx_ptr</span>, <span class="nm">img</span>)
+<span class="nm">img</span>, <span class="nm">w</span>, <span class="nm">h</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_xpm_file_to_image</span>(<span class="nm">mlx_ptr</span>, <span class="st">"f.xpm"</span>)  <span class="cm"># recommended</span>
+<span class="nm">img</span>, <span class="nm">w</span>, <span class="nm">h</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_png_file_to_image</span>(<span class="nm">mlx_ptr</span>, <span class="st">"f.png"</span>)  <span class="cm"># unreliable</span></code></pre>
+  </div>
+  <div class="qref-section">
+    <div class="qref-title">Hooks</div>
+    <pre><code><span class="nm">mlx</span>.<span class="fn">mlx_loop</span>(<span class="nm">mlx_ptr</span>)                               <span class="cm"># start — never returns</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_loop_exit</span>(<span class="nm">mlx_ptr</span>)                           <span class="cm"># exit from a hook</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_key_hook</span>(<span class="nm">win</span>, <span class="kw">lambda</span> <span class="nm">key</span>,<span class="nm">p</span>: ..., <span class="kw">None</span>)       <span class="cm"># key released</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_mouse_hook</span>(<span class="nm">win</span>, <span class="kw">lambda</span> <span class="nm">btn</span>,<span class="nm">x</span>,<span class="nm">y</span>,<span class="nm">p</span>: ..., <span class="kw">None</span>) <span class="cm"># click</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_expose_hook</span>(<span class="nm">win</span>, <span class="kw">lambda</span> <span class="nm">p</span>: ..., <span class="kw">None</span>)        <span class="cm"># window exposed</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_loop_hook</span>(<span class="nm">mlx_ptr</span>, <span class="kw">lambda</span> <span class="nm">p</span>: ..., <span class="kw">None</span>)      <span class="cm"># every frame</span>
+<span class="cm"># generic:  2=KeyPress  3=KeyRelease  4=BtnPress  5=BtnRelease</span>
+<span class="cm">#           6=Motion    7=Enter       8=Leave    33=WindowClose</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_hook</span>(<span class="nm">win</span>, <span class="nm">x_event</span>, <span class="nm">x_mask</span>, <span class="nm">fn</span>, <span class="nm">param</span>)</code></pre>
+  </div>
+  <div class="qref-section">
+    <div class="qref-title">Mouse &amp; Keyboard Utils</div>
+    <pre><code><span class="nm">mlx</span>.<span class="fn">mlx_mouse_hide</span>(<span class="nm">mlx_ptr</span>)  /  <span class="nm">mlx</span>.<span class="fn">mlx_mouse_show</span>(<span class="nm">mlx_ptr</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_mouse_move</span>(<span class="nm">mlx_ptr</span>, <span class="nm">x</span>, <span class="nm">y</span>)
+<span class="nm">ret</span>, <span class="nm">x</span>, <span class="nm">y</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_mouse_get_pos</span>(<span class="nm">mlx_ptr</span>)
+<span class="nm">ret</span>, <span class="nm">w</span>, <span class="nm">h</span> <span class="op">=</span> <span class="nm">mlx</span>.<span class="fn">mlx_get_screen_size</span>(<span class="nm">mlx_ptr</span>)
+<span class="nm">mlx</span>.<span class="fn">mlx_do_key_autorepeatoff</span>(<span class="nm">mlx_ptr</span>)  <span class="cm"># one event per keypress</span>
+<span class="nm">mlx</span>.<span class="fn">mlx_do_key_autorepeaton</span>(<span class="nm">mlx_ptr</span>)   <span class="cm"># default: rapid-fire while held</span></code></pre>
+  </div>
+  <div class="qref-section">
+    <div class="qref-title">Colors  0xAARRGGBB</div>
+    <pre><code><span class="nb">0xFFFFFFFF</span> <span class="cm">White</span>    <span class="nb">0xFF000000</span> <span class="cm">Black</span>    <span class="nb">0xFFFF0000</span> <span class="cm">Red</span>
+<span class="nb">0xFF00FF00</span> <span class="cm">Green</span>    <span class="nb">0xFF0000FF</span> <span class="cm">Blue</span>     <span class="nb">0xFFFFFF00</span> <span class="cm">Yellow</span></code></pre>
+  </div>
+</div>
+</div>
+
+<div style="margin-top: 60px; padding-top: 28px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); margin-bottom: 6px;">Written &amp; compiled by</div>
+    <div style="font-size: 18px; font-weight: 700; color: var(--accent);">Bruno Gomes</div>
+    <div style="font-size: 12px; color: var(--text2); margin-top: 3px;">Based on MLX source by Olivier Crouzet &mdash; mlx_CLXV v2.2</div>
+  </div>
+  <div style="text-align: right;">
+    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); margin-bottom: 6px;">Platform</div>
+    <div style="font-size: 13px; color: var(--text); font-weight: 500;">Linux &mdash; XCB / Vulkan &mdash; Python 3</div>
+    <div style="font-size: 12px; color: var(--text2); margin-top: 3px;">Free to use, share, and improve</div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</body>
+</html>
