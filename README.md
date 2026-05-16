@@ -37,7 +37,8 @@ The goal is to make future MLX Python projects easier to build and understand.
 
 ## 📖 Additional Documentation
 
-For more complete project documentation and additional MLX usage examples, you can also check the `docs/` folder from the A-Maze-ing project repository.
+For more complete project documentation and additional MLX usage examples, you can also check the `docs/` folder from the A-Maze-ing project repository:
+https://github.com/SaraFreitas-dev/A-Maze-ing
 
 ---
 
