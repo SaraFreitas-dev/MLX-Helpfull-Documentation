@@ -1,4 +1,6 @@
-# 🖼️ MLX Helpful Documentation (Python Edition)
+# 🖼️ MinilibX (MLX) Helpful Documentation (Python Edition)
+
+A complete practical guide for using MinilibX (MLX) in Python projects at 42 School.
 
 🌐 **Project Website:**  
 https://sarafreitas-dev.github.io/MLX-Helpfull-Documentation/
